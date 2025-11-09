@@ -1,3 +1,0 @@
-#ifNDef _OBJECTDEFS_H
-
-#define _OBJECTDEFS_H
