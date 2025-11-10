@@ -1,8 +1,8 @@
-#ifNDEF USERDEFS_H
-
-#include <Stuff>
-
-#DEFINE USERDEFS_H
+#ifndef USERDEFS_H
+#define USERDEFS_H
+#include <string>
+#include <iostream>
+using namespace std;
 
 class Patron {
   private:
@@ -16,7 +16,7 @@ class Patron {
     double fines;
 
   public:
-    Patron(const string& username, const string& password, const string& name, const string& email, const string& phoneNumber) : username(username), password(password), name(name), email(email), phoneNumber(phoneNumber)
+    Patron(const string& username, const string& password, const string& name, const string& email, const string& phoneNumber) : username(username), password(password), name(name), email(email), phoneNumber(phoneNumber) {}
 };
 
 
@@ -28,3 +28,5 @@ class Patron {
 class SystemAdmin {
 
 };*/
+
+#endif
