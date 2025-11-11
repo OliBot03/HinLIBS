@@ -1,0 +1,21 @@
+# C++ compiled files
+*.o
+*.out
+*.exe
+a.out
+main
+
+# Build directories
+build/
+dist/
+
+# IDE files
+.vscode/
+.idea/
+
+# Replit files
+.replit
+replit.nix
+.upm/
+.cache/
+.config/
