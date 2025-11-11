@@ -1,6 +1,3 @@
-#include <string>
-#include <iostream>
-#include <memory>
 #include "Catalogue.h"
 
 
@@ -40,5 +37,25 @@ void Catalogue::printItems() {
         items.at(i)->print(cout);
         cout << endl;
     }
-        
 }
+
+Item* Catalogue::getItemById(int id) {
+    for(size_t i = 0; i < items.size(); i++) {
+        if (items.at(i)->getItemId() == id)
+            return items.at(i).get();
+    }
+    // Else Item with given ID not found, send error msg
+    return nullptr;
+}  
+
+void Catalogue::printItemById(int id) {
+    Item* i1 = getItemById(id);
+    if (i1)
+        i1->print(cout);
+    else {
+        //Item not found send error msg
+        i1 = nullptr;
+    }
+
+}
+

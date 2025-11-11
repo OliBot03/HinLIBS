@@ -1,5 +1,4 @@
 //Here we define the object types and their properties
-
 #ifndef OBJECTDEFS_H
 #define OBJECTDEFS_H
 #include <string>
@@ -10,15 +9,24 @@ using namespace std;
 class Item {
   
   protected:
-    Item(std::string t, std::string c) : title(std::move(t)), author(std::move(c)) {}
+    inline static int nextItemId = 1001;
     string title;
     string author;
-    bool checkOut;
+    int itemId;
+    bool checkedOut;
 
+    Item(std::string t, std::string c) : title(std::move(t)), author(std::move(c)), itemId(nextItemId++) {}
+  
   public:
     virtual ~Item() = default;                
     virtual void getType() const = 0; 
     virtual void print(std::ostream& os) const = 0;
+    
+    int getItemId() const { return itemId; }
+    const std::string& getTitle() const { return title; }
+    bool isCheckedOut() const { return checkedOut; }
+    void markCheckedOut() { checkedOut = true; }
+    void markAvailable() { checkedOut = false; }
 };
 
 class FictionBook: public Item {
@@ -26,11 +34,11 @@ class FictionBook: public Item {
     string isbn;
 
   public:
-    FictionBook(const string& title, const string& author, const string& isbn) : Item(title, author), isbn(isbn) {checkOut = false;}
+    FictionBook(const string& title, const string& author, const string& isbn) : Item(title, author), isbn(isbn) {checkedOut = false;}
     void getType() const override {cout<<"FictionBook"<<endl;}
     void print(ostream& os) const override {
-      os << "Title: " << title << ", Author: " << author << ", ISBN: " 
-        << isbn << ", Availability Status: " << ((checkOut) ? "Checked Out" : "Available");
+      os << "ID: " << getItemId() << ", Title: " << title << ", Author: " << author << ", ISBN: " 
+        << isbn << ", Availability Status: " << (isCheckedOut() ? "Checked Out" : "Available");
     }
 };
 
@@ -41,11 +49,11 @@ class NonFictionBook: public Item {
 
   public:
     NonFictionBook(const string& title, const string& author, const string& isbn, const string& DeweyDecimal) 
-      : Item(title, author), isbn(isbn), DeweyDecimal(DeweyDecimal) { checkOut = false;}
+      : Item(title, author), isbn(isbn), DeweyDecimal(DeweyDecimal) { checkedOut = false;}
     void getType() const override {cout<<"NonFictionBook"<<endl;}
     void print(ostream& os) const override {
-      os << "Title: " << title << ", Author: " << author << ", ISBN: " 
-        << isbn << ", Dewey Decimal: " << DeweyDecimal << ", Availability Status: " << ((checkOut) ? "Checked Out" : "Available");
+      os << "ID: " << getItemId() << ", Title: " << title << ", Author: " << author << ", ISBN: " 
+        << isbn << ", Dewey Decimal: " << DeweyDecimal << ", Availability Status: " << (isCheckedOut() ? "Checked Out" : "Available");
     }
 };
 
@@ -56,11 +64,11 @@ class Magazine: public Item {
 
   public:  
     Magazine(const string& title, const string& author, const string& issueNumber, const string& publicationDate) 
-      : Item(title, author), issueNumber(issueNumber), publicationDate(publicationDate) { checkOut = false; }
+      : Item(title, author), issueNumber(issueNumber), publicationDate(publicationDate) { checkedOut = false; }
     void getType() const override {cout<<"Magazine"<<endl;}
     void print(ostream& os) const override{
-      os << "Title: " << title << ", Author: " << author << ", Issue Number: " 
-        << issueNumber << ", Publication Date: " << publicationDate << ", Availability Status: " << ((checkOut) ? "Checked Out" : "Available");
+      os << "ID: " << getItemId() << ", Title: " << title << ", Author: " << author << ", Issue Number: " 
+        << issueNumber << ", Publication Date: " << publicationDate << ", Availability Status: " << (isCheckedOut() ? "Checked Out" : "Available");
     }
 };
 
@@ -71,11 +79,11 @@ class Movie: public Item {
 
   public:
     Movie(const string& title, const string& author, const string& genre, const string& rating) 
-      : Item(title, author), genre(genre), rating(rating) { checkOut = false; }
+      : Item(title, author), genre(genre), rating(rating) { checkedOut = false; }
     void getType() const override {cout<<"Movie"<<endl;}
     void print(ostream& os) const override {
-      os << "Title: " << title << ", Author: " << author << ", Genre: " 
-        << genre << ", Rating: " << rating << ", Availability Status: " << ((checkOut) ? "Checked Out" : "Available");
+      os << "ID: " << getItemId() << ", Title: " << title << ", Author: " << author << ", Genre: " 
+        << genre << ", Rating: " << rating << ", Availability Status: "<< (isCheckedOut() ? "Checked Out" : "Available");
     }
 };
 
@@ -86,11 +94,11 @@ class VideoGame: public Item {
 
   public:
     VideoGame(const string& title, const string& author, const string& genre, const string& rating) 
-      : Item(title, author), genre(genre), rating(rating) { checkOut = false; }
+      : Item(title, author), genre(genre), rating(rating) { checkedOut = false; }
     void getType() const override {cout<<"VideoGame"<<endl;}
     void print(ostream& os) const override {
-      os << "Title: " << title << ", Author: " << author << ", Genre: " << genre
-        << ", Rating: "<<rating << ", Availability Status: " << ((checkOut) ? "Checked Out" : "Available");
+      os << "ID: " << getItemId() << ", Title: " << title << ", Author: " << author << ", Genre: " << genre
+        << ", Rating: "<<rating << ", Availability Status: " << (isCheckedOut() ? "Checked Out" : "Available");
     }
 };
 
