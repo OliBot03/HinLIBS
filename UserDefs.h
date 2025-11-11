@@ -2,22 +2,44 @@
 #define USERDEFS_H
 #include <string>
 #include <iostream>
+#include <memory>
 using namespace std;
 
 class Patron {
   private:
+    inline static int nextPatronId = 2001;
+    int patronId; //make this more meaningful (tie it to the fake "authentication" for the session maybe)
+
     string username;
     string password;
     string name;
     string email;
     string phoneNumber;
+    int activeLoanCount;
+
     //Active loans
     //Holds
-    double fines;
+    
+    
 
   public:
-    Patron(const string& username, const string& password, const string& name, const string& email, const string& phoneNumber) : username(username), password(password), name(name), email(email), phoneNumber(phoneNumber) {}
+    Patron(const string& username, const string& password, const string& name, const string& email, const string& phoneNumber) 
+      :  patronId(nextPatronId++), username(username), password(password), name(name), email(email), phoneNumber(phoneNumber), activeLoanCount(0) {}
+
+    int getPatronId() const {return patronId;}
+    int getActiveLoanCount() const {return activeLoanCount;}
+    void addActiveLoan() {activeLoanCount++;}
+    void removeActiveLoan() {activeLoanCount--;}
+
+    void printPatron() const {
+      cout << "ID: " << patronId << ", Username: " << username << ", Password: " << password << ", Name: " << name 
+        << ", Email: " << email << ", phoneNumber: " << phoneNumber;
+    }
+
+    
 };
+
+
 
 
 //For the future:

@@ -1,60 +1,71 @@
-#include <iostream>
-#include <vector>
-#include "UserDefs.h"
-#include "ObjectDefs.h"
-#include "mainwindow.h"
-#include <QApplication>
-using namespace std;
+#include "Catalogue.h"
+#include "UserRepo.h"
+#include "checkOutService.h"
+#include "ReturnService.h"
+#include "AccountService.h"
+#include "LoanRepo.h"
 
-class Catalogue {
-  private:
-    vector<Item> items;
-  public:
-    Catalogue();
-    void addItem(const Item& item);
-    void seeCatalogue();
-};
-int main(int argc, char *argv[]){
+void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, AccountService&);
 
-  QApplication a(argc, argv);
-  MainWindow w;
-  w.show();
-  return a.exec();
-
-  cout<<"Hello world!"<<endl;
+int main()
+{
+  cout << "Hello world!" << endl;
+  PatronRepo p = PatronRepo();
   Catalogue c = Catalogue();
-  c.seeCatalogue();
+  LoanRepo loans = LoanRepo();
+  checkOutService checkout(c, p, loans);
+  returnService returns(c, p, loans);
+  AccountService account(p, loans, c); 
+  controlLoop(c, p, checkout, returns, account);
 }
 
-void Catalogue::addItem(const Item& item){
-  items.push_back(item);
-}
+// just a temporary loop for testing functionality
+void controlLoop(Catalogue& cat, PatronRepo& pat, checkOutService& checkout, returnService& returns, AccountService& account)  {
 
-void Catalogue::seeCatalogue(){
-  for (int i = 0; i < items.size(); i++)
-    cout << items[i] << endl;
-}
+  int opt=0;
 
-Catalogue::Catalogue(){
-  addItem(FictionBook("F1", "Oliver", "111"));
-  addItem(FictionBook("F2", "Oliver", "112"));
-  addItem(FictionBook("F3", "Oliver", "113"));
-  addItem(FictionBook("F4", "Oliver", "114"));
-  addItem(FictionBook("F5", "Oliver", "115"));
-  addItem(NonFictionBook("NF1", "Oliver", "211", "D1"));
-  addItem(NonFictionBook("NF2", "Oliver", "212", "D2"));
-  addItem(NonFictionBook("NF3", "Oliver", "213", "D3"));
-  addItem(NonFictionBook("NF4", "Oliver", "214", "D4"));
-  addItem(NonFictionBook("NF5", "Oliver", "215", "D5"));
-  addItem(Magazine("M1", "Oliver", "311", "1", "Jan 2020"));
-  addItem(Magazine("M2", "Oliver", "312", "2", "Feb 2020"));
-  addItem(Magazine("M3", "Oliver", "313", "3", "Mar 2020"));
-  addItem(Movie("MO1", "Director Oliver", "Horror", "R"));
-  addItem(Movie("MO2", "Director Oliver", "Fantasy", "PG-13"));
-  addItem(Movie("MO3", "Director Oliver", "Action", "PG"));
-  addItem(VideoGame("VG1", "Game Dev Oliver", "Action", "PG"));
-  addItem(VideoGame("VG2", "Game Dev Oliver", "Rogue-lite", "PG-13"));
-  addItem(VideoGame("VG3", "Game Dev Oliver", "Horror", "R"));
-  addItem(VideoGame("VG4", "Game Dev Oliver", "FPS", "R"));
-  cout<<"Catalogue created!"<<endl;
+  while(true){
+    cout << "\n\n****** Option Menu *******\n" << endl;
+    cout << "0: exit  1: Browse/View all catalogue Items  2: View all Patrons  3: Borrow Item  4: Return Item  5: Place Hold  6: Cancel Hold  7: View Account Status\n" << endl;
+    
+    cin >> opt;
+
+    switch(opt) {
+      case 1:  // Browse
+        cat.printItems();
+        break;
+
+      case 2:  // view patrons
+        pat.printAllPatrons();
+        break;
+
+      case 3: { // borrow
+        int patronId, itemId;
+        std::cout << "Patron ID: "; std::cin >> patronId;
+        std::cout << "Item ID:   "; std::cin >> itemId;
+        std::cout << checkout.checkOutItem(patronId, itemId) << "\n";
+        break;
+      }
+
+      case 4: { // Return
+        int patronId, itemId;
+        std::cout << "Patron ID: "; std::cin >> patronId;
+        std::cout << "Item ID:   "; std::cin >> itemId;
+        std::cout << returns.returnItem(patronId, itemId) << "\n";
+        break;
+      }
+
+    case 7: { // Account Status (active loans)
+        int patronId;
+        std::cout << "Patron ID: "; std::cin >> patronId;
+        account.displayActiveLoans(patronId);  // prints title, due date, days remaining
+        break;
+      }
+
+    case 0:
+      return;
+    }
+  }
+
+
 }
