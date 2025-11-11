@@ -2,6 +2,8 @@
 #include <vector>
 #include "UserDefs.h"
 #include "ObjectDefs.h"
+#include "mainwindow.h"
+#include <QApplication>
 using namespace std;
 
 class Catalogue {
@@ -12,7 +14,13 @@ class Catalogue {
     void addItem(const Item& item);
     void seeCatalogue();
 };
-int main(){
+int main(int argc, char *argv[]){
+
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec();
+
   cout<<"Hello world!"<<endl;
   Catalogue c = Catalogue();
   c.seeCatalogue();
