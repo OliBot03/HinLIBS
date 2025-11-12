@@ -4,11 +4,19 @@
 #include "ReturnService.h"
 #include "AccountService.h"
 #include "LoanRepo.h"
+#include "mainwindow.h"
+#include <QApplication>
 
 void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, AccountService&);
 
-int main()
+int main(int argc, char *argv[])
 {
+  //QT Window launch
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec();
+  
   cout << "Hello world!" << endl;
   PatronRepo p = PatronRepo();
   Catalogue c = Catalogue();
