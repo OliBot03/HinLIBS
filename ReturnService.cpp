@@ -1,7 +1,8 @@
 #include "ReturnService.h"
 
 
-string returnService::returnItem(int patronId, int itemId) {
+/* Changed it to checkinControl (Not done yet)
+ * string returnService::returnItem(int patronId, int itemId) {
     
     Loan* L1 = loans.getLoanByItem(itemId);
 
@@ -27,4 +28,4 @@ string returnService::returnItem(int patronId, int itemId) {
          + i1->getTitle() + " on " + ymd(ret) + ".";  
     
 
-}
+}*/

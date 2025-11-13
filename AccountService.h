@@ -3,6 +3,7 @@
 
 #include "UserRepo.h"
 #include "LoanRepo.h"
+#include "Catalogue.h"
 
 class AccountService {
 

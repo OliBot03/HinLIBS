@@ -1,8 +1,6 @@
 #ifndef LOAN_H
 #define LOAN_H
-
-#include "Catalogue.h"
-#include "UserRepo.h"
+#include <iostream>
 #include "timeUtils.h"
 
 

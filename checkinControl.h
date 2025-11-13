@@ -1,0 +1,4 @@
+#ifndef CHECKINCONTROL_H
+#define CHECKINCONTROL_H
+
+#endif // CHECKINCONTROL_H

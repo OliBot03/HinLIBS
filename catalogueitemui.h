@@ -20,6 +20,9 @@ public:
     explicit CatalogueItemUI(QWidget *parent = nullptr, Item* i = nullptr);
     ~CatalogueItemUI();
 
+signals:
+    void checkoutInitiated(Item* item);
+
 private slots:
     void on_checkin_clicked();
 
@@ -31,8 +34,7 @@ private slots:
 
 private:
     Ui::CatalogueItemUI *ui;
-    string title;
-    string author;
+    Item*  item;
 };
 
 #endif // CATALOGUEITEMUI_H

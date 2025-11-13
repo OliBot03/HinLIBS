@@ -1,6 +1,6 @@
 #include "checkOutService.h"
 
-
+/* For now I changed it to checkoutControl at least that version makes more sense to me -_-
 string checkOutService::checkOutItem(int patronId, int itemId) {
     // check if both patron and item exist
     Patron* p1 = patrons.getPatronById(patronId);
@@ -11,7 +11,7 @@ string checkOutService::checkOutItem(int patronId, int itemId) {
     //check if item already checked out
     if (i1->isCheckedOut()) {
         cout << "Item is already checked out! "; 
-        //*********TO DO: OFFER PATRON OPTION TO PLACE HOLD IF THEY WANT TO **********/
+        //*********TO DO: OFFER PATRON OPTION TO PLACE HOLD IF THEY WANT TO *********
 
         // if patron has hold on item AND is first on hold queue, allow checkout
 
@@ -33,7 +33,7 @@ string checkOutService::checkOutItem(int patronId, int itemId) {
          + i1->getTitle() + " | Due: " + ymd(due)
          + " | Days remaining: " + std::to_string(days_remaining(due));
 
-}
+}*/
 
 
 

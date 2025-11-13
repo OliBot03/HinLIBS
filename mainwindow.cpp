@@ -67,6 +67,7 @@ void MainWindow::on_pushButton_clicked()
     Item* currentItem = catalogue.getItemById(ID);
     CatalogueItemUI *CIUI;
     CIUI = new CatalogueItemUI(this,currentItem);
+    connect(CIUI, &CatalogueItemUI::checkoutInitiated, this, &MainWindow::handleCheckout);
     CIUI->show();
 }
 
@@ -84,6 +85,22 @@ void MainWindow::handleLoginAttempt(const QString& username,  const QString& pas
         loginSuccessHandler(username);
     } else {
         QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
+    }
+}
+
+void MainWindow::handleCheckout(Item* item){
+    checkoutControl c;
+    CheckoutResult result = c.attemptCheckout(item, currentUser);
+    switch (result) {
+    case CheckoutResult::TooManyLoans:
+        QMessageBox::warning(this, "Checkout Error", "You have too many active loans.");
+        break;
+    case CheckoutResult::AlreadyCheckedOut:
+        QMessageBox::warning(this, "Checkout Error", "Item already checked out.");
+        break;
+    default:
+        QMessageBox::information(this, "Success", "Item checked out!");
+        break;
     }
 }
 

@@ -10,6 +10,7 @@
 #include "catalogueitemui.h"
 #include "Catalogue.h"
 #include "UserRepo.h"
+#include "checkoutControl.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,6 +41,7 @@ private:
     void login();
     void view();
     void loginSuccessHandler(const QString &username);
+    void handleCheckout(Item* item);
     void logout();
 };
 #endif // MAINWINDOW_H
