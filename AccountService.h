@@ -11,6 +11,7 @@ class AccountService {
         AccountService(PatronRepo& users, LoanRepo& loan, Catalogue& cat) : patrons(users), loans(loan), catalogue(cat) {}
         void displayActiveLoans(int);
         void displayActiveHolds(int);
+        vector<Loan*> getActiveLoans(int patronId);
 
 
     private:

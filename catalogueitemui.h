@@ -24,7 +24,6 @@ signals:
     void checkoutInitiated(Item* item);
 
 private slots:
-    void on_checkin_clicked();
 
     void on_checkout_clicked();
 

@@ -38,9 +38,9 @@ class Patron {
     }
     void removeActiveLoan(Item * item) {activeLoanCount--;}
     bool validateLogin(string p){ return p==password;}
-    void printPatron() const {
-      cout << "ID: " << patronId << ", Username: " << username << ", Password: " << password << ", Name: " << name 
-        << ", Email: " << email << ", phoneNumber: " << phoneNumber;
+    void printPatron(ostream& os) const {
+      os << " ID: " << patronId << "\n Username: " << username << "\n Password: " << password << "\n Name: " << name
+        << "\n Email: " << email << "\n phoneNumber: " << phoneNumber;
     }
 
     vector<Loan*>& getLoans(){ return activeLoans;}

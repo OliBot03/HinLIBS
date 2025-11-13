@@ -34,7 +34,7 @@ Patron* PatronRepo::getPatronByUsername(string username) const {
 void PatronRepo::printPatronById(int id) const {
     Patron *p1 = getPatronById(id);
     if (p1) {
-        p1->printPatron();
+        p1->printPatron(cout);
     }
     else {
         // Send patron not found message
@@ -44,7 +44,7 @@ void PatronRepo::printPatronById(int id) const {
 
 void PatronRepo::printAllPatrons() const {
     for(size_t i=0; i < patrons.size(); i++) {
-        patrons.at(i)->printPatron();
+        patrons.at(i)->printPatron(cout);
         cout << endl;
     }
 }

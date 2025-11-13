@@ -1,13 +1,26 @@
 #include "accountwindow.h"
 #include "ui_accountwindow.h"
 
-AccountWindow::AccountWindow(QWidget *parent, QString u) :
+AccountWindow::AccountWindow(QWidget *parent, Patron *u) :
     QMainWindow(parent),
     ui(new Ui::AccountWindow)
 {
-    username = u;
+    currentUser = u;
     ui->setupUi(this);
-    ui->label->setText(username + " - Account Details");
+    ui->label->setText("Account Details");
+    std::ostringstream oss;
+    u->printPatron(oss);
+    QString mData = QString::fromStdString(oss.str());
+    ui->AccountDetails->setText(mData);
+
+    for (const auto& itemPtr : u->getLoans()) {
+
+        QString temp = QString::fromStdString(std::to_string(itemPtr->getItemId()));
+        QListWidgetItem *listItem = new QListWidgetItem(temp);
+        listItem->setData(Qt::UserRole, itemPtr->getItemId());
+        ui->listWidget->addItem(listItem);
+    }
+    ui->listWidget->update();
 }
 
 AccountWindow::~AccountWindow()

@@ -24,6 +24,7 @@ public:
     MainWindow(Catalogue& c, PatronRepo& pr, QWidget *parent = nullptr);
     ~MainWindow();
     void loadCatalogue();
+    Patron* getUser(){return currentUser;}
 
 private slots:
     void on_pushButton_clicked();
@@ -40,7 +41,7 @@ private:
     void quit();
     void login();
     void view();
-    void loginSuccessHandler(const QString &username);
+    void loginSuccessHandler(Patron* patron);
     void handleCheckout(Item* item);
     void logout();
 };
