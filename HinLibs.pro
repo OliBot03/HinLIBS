@@ -10,17 +10,20 @@ CONFIG += c++11
 
 SOURCES += \
     accountwindow.cpp \
+    catalogueitemui.cpp \
     loginui.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     accountwindow.h \
+    catalogueitemui.h \
     loginui.h \
     mainwindow.h
 
 FORMS += \
     accountwindow.ui \
+    catalogueitemui.ui \
     loginui.ui \
     mainwindow.ui
 

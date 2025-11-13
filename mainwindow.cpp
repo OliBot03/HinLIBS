@@ -44,3 +44,32 @@ void MainWindow::logout(){
     ui->actionSign_In->setVisible(true);
     ui->actionView->setVisible(false);
 }
+
+void MainWindow::setCatalogue(std::vector<Item> i){
+    catalogue = i;
+    for (int i = 0; i < catalogue.size(); i++){
+      cout << "added:" << catalogue[i] << endl;
+    }
+}
+
+void MainWindow::loadCatalogue(){
+    for (int i = 0; i < catalogue.size(); i++) {
+
+        QString temp = QString::fromStdString(catalogue[i].getTitle());
+        QListWidgetItem *listItem = new QListWidgetItem(temp);
+        listItem->setData(Qt::UserRole, i);
+        ui->CatalogueUI->addItem(listItem);
+    }
+    ui->CatalogueUI->update();
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    int ID = ui->CatalogueUI->currentItem()->data(Qt::UserRole).toInt();
+    Item currentItem = catalogue[ID];
+    CatalogueItemUI *CIUI;
+    CIUI = new CatalogueItemUI(this,currentItem);
+    CIUI->show();
+}
+

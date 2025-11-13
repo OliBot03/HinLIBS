@@ -8,22 +8,24 @@ using namespace std;
 
 class Catalogue {
   private:
-    vector<Item> items;
   public:
     Catalogue();
     void addItem(const Item& item);
     void seeCatalogue();
+    vector<Item> items;
 };
 int main(int argc, char *argv[]){
 
   QApplication a(argc, argv);
   MainWindow w;
-  w.show();
-  return a.exec();
 
   cout<<"Hello world!"<<endl;
   Catalogue c = Catalogue();
   c.seeCatalogue();
+  w.setCatalogue(c.items);
+  w.loadCatalogue();
+  w.show();
+  return a.exec();
 }
 
 void Catalogue::addItem(const Item& item){

@@ -18,6 +18,7 @@ class Item {
     void checkOutItem(){};
     void checkInItem(){};
     void placeHoldItem(){};
+    string getTitle(){return title;}
 
     virtual void getType() const {
       cout<<"Item"<<endl;
