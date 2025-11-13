@@ -59,7 +59,11 @@ void Catalogue::printItemById(int id) {
 
 }
 
-const std::vector<unique_ptr<Item>>&  Catalogue::getItems(){
-    return items;
+const std::vector<int>  Catalogue::getItemIds(){
+    std::vector<int> ids;
+    for (size_t i = 0; i < items.size(); i++){
+        ids.push_back(items[i]->getItemId());
+    }
+    return ids;
 }
 

@@ -50,11 +50,12 @@ void MainWindow::logout(){
 }
 
 void MainWindow::loadCatalogue(){
-    for (const auto& itemPtr : catalogue.getItems()) {
+    vector<int> itemids = catalogue.getItemIds();
+    for (size_t i = 0;  i < itemids.size(); i++) {
 
-        QString temp = QString::fromStdString(itemPtr->getTitle());
+        QString temp = QString::fromStdString(catalogue.getItemById(itemids[i])->getTitle());
         QListWidgetItem *listItem = new QListWidgetItem(temp);
-        listItem->setData(Qt::UserRole, itemPtr->getItemId());
+        listItem->setData(Qt::UserRole, catalogue.getItemById(itemids[i])->getItemId());
         ui->CatalogueUI->addItem(listItem);
     }
     ui->CatalogueUI->update();

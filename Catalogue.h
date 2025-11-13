@@ -16,7 +16,7 @@ class Catalogue {
         Item* getItemById(int id);    
         void printItemById(int id);    
         void printItems();
-        const std::vector<unique_ptr<Item>>& getItems();
+        const std::vector<int> getItemIds();
         
 
     private:
