@@ -6,7 +6,9 @@
 enum class CheckoutResult {
     Success,
     AlreadyCheckedOut,
-    TooManyLoans
+    TooManyLoans,
+    PatronDoesNotExist,
+    ItemDoesNotExist
 };
 
 class checkoutControl {

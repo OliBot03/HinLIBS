@@ -32,11 +32,11 @@ class Patron {
     string getUsername() const {return username;}
     int getPatronId() const {return patronId;}
     int getActiveLoanCount() const {return activeLoanCount;}
-    void addActiveLoan(Item* item) {
-        activeLoans.push_back(new Loan(patronId, item->getItemId(), 14));
+    void addActiveLoan(int itemID) {
+        activeLoans.push_back(new Loan(patronId, itemID, 14));
         activeLoanCount++;
     }
-    void removeActiveLoan(Item * item) {activeLoanCount--;}
+    void removeActiveLoan(int itemID) {activeLoanCount--;}
     bool validateLogin(string p){ return p==password;}
     void printPatron() const {
       cout << "ID: " << patronId << ", Username: " << username << ", Password: " << password << ", Name: " << name 

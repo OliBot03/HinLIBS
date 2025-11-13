@@ -10,6 +10,7 @@
 #include "catalogueitemui.h"
 #include "Catalogue.h"
 #include "UserRepo.h"
+#include "LoanRepo.h"
 #include "checkoutControl.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,7 +22,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(Catalogue& c, PatronRepo& pr, QWidget *parent = nullptr);
+    MainWindow(Catalogue& c, PatronRepo& pr, LoanRepo&, QWidget *parent = nullptr);
     ~MainWindow();
     void loadCatalogue();
 
@@ -35,6 +36,7 @@ private:
     AccountWindow *acc;
     Catalogue& catalogue;
     PatronRepo& patrons;
+    LoanRepo& loans;;
     Patron* currentUser;
 
     void quit();

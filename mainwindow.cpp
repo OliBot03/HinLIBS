@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-MainWindow::MainWindow(Catalogue& c, PatronRepo& pr, QWidget *parent)
+MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l,QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
      catalogue (c),
      currentUser(nullptr),
-     patrons (pr)
+     patrons (p),
+     loans  (l)
 {
     ui->setupUi(this);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::quit);
