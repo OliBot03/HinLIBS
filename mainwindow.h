@@ -8,6 +8,7 @@
 #include "UserDefs.h"
 #include "ObjectDefs.h"
 #include "catalogueitemui.h"
+#include "Catalogue.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,10 +19,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Catalogue& c, QWidget *parent = nullptr);
     ~MainWindow();
     void loadCatalogue();
-    void setCatalogue(std::vector<Item> items);
+    void setCatalogue(const std::vector<unique_ptr<Item>>& items);
 
 private slots:
     void on_pushButton_clicked();
@@ -30,7 +31,7 @@ private:
     Ui::MainWindow *ui;
     loginUI *l;
     AccountWindow *acc;
-    vector<Item> catalogue;
+    Catalogue& catalogue;
 
     void quit();
     void login();

@@ -59,3 +59,7 @@ void Catalogue::printItemById(int id) {
 
 }
 
+const std::vector<unique_ptr<Item>>&  Catalogue::getItems(){
+    return items;
+}
+

@@ -1,9 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(Catalogue& c, QWidget *parent)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow)
+    , catalogue (c)
 {
     ui->setupUi(this);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::quit);
@@ -45,19 +46,12 @@ void MainWindow::logout(){
     ui->actionView->setVisible(false);
 }
 
-void MainWindow::setCatalogue(std::vector<Item> i){
-    catalogue = i;
-    for (int i = 0; i < catalogue.size(); i++){
-      cout << "added:" << catalogue[i] << endl;
-    }
-}
-
 void MainWindow::loadCatalogue(){
-    for (int i = 0; i < catalogue.size(); i++) {
+    for (const auto& itemPtr : catalogue.getItems()) {
 
-        QString temp = QString::fromStdString(catalogue[i].getTitle());
+        QString temp = QString::fromStdString(itemPtr->getTitle());
         QListWidgetItem *listItem = new QListWidgetItem(temp);
-        listItem->setData(Qt::UserRole, i);
+        listItem->setData(Qt::UserRole, itemPtr->getItemId());
         ui->CatalogueUI->addItem(listItem);
     }
     ui->CatalogueUI->update();
@@ -67,7 +61,7 @@ void MainWindow::loadCatalogue(){
 void MainWindow::on_pushButton_clicked()
 {
     int ID = ui->CatalogueUI->currentItem()->data(Qt::UserRole).toInt();
-    Item currentItem = catalogue[ID];
+    Item* currentItem = catalogue.getItemById(ID);
     CatalogueItemUI *CIUI;
     CIUI = new CatalogueItemUI(this,currentItem);
     CIUI->show();

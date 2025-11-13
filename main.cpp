@@ -22,12 +22,9 @@ int main(int argc, char *argv[])
 
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w;
+  MainWindow w(c);
 
   cout<<"Hello world!"<<endl;
-  Catalogue c = Catalogue();
-  c.seeCatalogue();
-  w.setCatalogue(c.items);
   w.loadCatalogue();
   w.show();
   return a.exec();
