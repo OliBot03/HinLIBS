@@ -26,11 +26,12 @@ class Patron {
     Patron(const string& username, const string& password, const string& name, const string& email, const string& phoneNumber) 
       :  patronId(nextPatronId++), username(username), password(password), name(name), email(email), phoneNumber(phoneNumber), activeLoanCount(0) {}
 
+    string getUsername() const {return username;}
     int getPatronId() const {return patronId;}
     int getActiveLoanCount() const {return activeLoanCount;}
     void addActiveLoan() {activeLoanCount++;}
     void removeActiveLoan() {activeLoanCount--;}
-
+    bool validateLogin(string p){ return p==password;}
     void printPatron() const {
       cout << "ID: " << patronId << ", Username: " << username << ", Password: " << password << ", Name: " << name 
         << ", Email: " << email << ", phoneNumber: " << phoneNumber;

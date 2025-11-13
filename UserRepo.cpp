@@ -22,6 +22,15 @@ Patron* PatronRepo::getPatronById(int id) const {
     return nullptr;
 }
 
+Patron* PatronRepo::getPatronByUsername(string username) const {
+    for(size_t i=0; i < patrons.size(); i++) {
+        if (patrons.at(i)->getUsername() == username)
+            return patrons.at(i).get();
+    }
+    //TO DO: If we reach here patron not found, send error message
+    return nullptr;
+}
+
 void PatronRepo::printPatronById(int id) const {
     Patron *p1 = getPatronById(id);
     if (p1) {

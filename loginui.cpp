@@ -21,12 +21,8 @@ void loginUI::on_QuitLogin_clicked()
 
 void loginUI::on_loginButton_clicked()
 {
-    //login verifier code
-
     QString username = ui->Username->text();
-    emit loginSuccess(username);
-    this->close();
-
-    //else login error
+    QString password = ui->Password->text();
+    emit loginAttempt(username, password);
 }
 

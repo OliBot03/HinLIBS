@@ -13,7 +13,7 @@ class PatronRepo {
         Patron* getPatronById(int) const;
         void printPatronById(int) const ;
         void printAllPatrons() const;
-        
+        Patron* getPatronByUsername(string) const;
 
     private:
         vector<unique_ptr<Patron>> patrons;

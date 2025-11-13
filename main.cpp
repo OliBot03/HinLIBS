@@ -11,7 +11,6 @@ void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, Acco
 
 int main(int argc, char *argv[])
 {
-  cout << "Hello world!" << endl;
   PatronRepo p = PatronRepo();
   Catalogue c = Catalogue();
   LoanRepo loans = LoanRepo();
@@ -22,9 +21,8 @@ int main(int argc, char *argv[])
 
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w(c);
+  MainWindow w(c, p);
 
-  cout<<"Hello world!"<<endl;
   w.loadCatalogue();
   w.show();
   return a.exec();
