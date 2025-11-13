@@ -2,7 +2,7 @@
 #define LOGINUI_H
 
 #include <QWidget>
-
+#include "UserDefs.h"
 namespace Ui {
 class loginUI;
 }
@@ -17,7 +17,8 @@ public:
 
 
 signals:
-    void loginSuccess(const QString &username);
+    void loginAttempt(const QString& username, const QString& password);
+    void loginSuccess(Patron* user);
 
 
 private slots:

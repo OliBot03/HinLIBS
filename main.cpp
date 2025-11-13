@@ -11,26 +11,24 @@ void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, Acco
 
 int main(int argc, char *argv[])
 {
-  cout << "Hello world!" << endl;
   PatronRepo p = PatronRepo();
   Catalogue c = Catalogue();
   LoanRepo loans = LoanRepo();
   checkOutService checkout(c, p, loans);
   returnService returns(c, p, loans);
   AccountService account(p, loans, c); 
-  controlLoop(c, p, checkout, returns, account);
+  //controlLoop(c, p, checkout, returns, account);
 
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w(c);
+  MainWindow w(c, p);
 
-  cout<<"Hello world!"<<endl;
   w.loadCatalogue();
   w.show();
   return a.exec();
 }
 
-// just a temporary loop for testing functionality
+/* just a temporary loop for testing functionality
 void controlLoop(Catalogue& cat, PatronRepo& pat, checkOutService& checkout, returnService& returns, AccountService& account)  {
 
   int opt=0;
@@ -79,4 +77,4 @@ void controlLoop(Catalogue& cat, PatronRepo& pat, checkOutService& checkout, ret
   }
 
 
-}
+}*/

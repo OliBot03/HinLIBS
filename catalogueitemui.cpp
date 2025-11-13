@@ -5,6 +5,7 @@ CatalogueItemUI::CatalogueItemUI(QWidget *parent, Item* i) :
     QWidget(parent),
     ui(new Ui::CatalogueItemUI)
 {
+    item = i;
     ui->setupUi(this);
     if (i){
         std::ostringstream oss;
@@ -30,8 +31,7 @@ void CatalogueItemUI::on_checkin_clicked()
 
 void CatalogueItemUI::on_checkout_clicked()
 {
-    //run check out script
-    // change status label based on success/failure
+    emit(checkoutInitiated(item));
 }
 
 

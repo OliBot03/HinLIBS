@@ -1,6 +1,7 @@
 #ifndef LOANREPO_H
 #define LOANREPO_H
 #include "Loan.h"
+#include <vector>
 
 class LoanRepo {
 

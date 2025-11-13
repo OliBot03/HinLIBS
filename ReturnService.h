@@ -3,7 +3,7 @@
 
 #include "LoanRepo.h"
 #include "UserRepo.h"
-
+#include "Catalogue.h"
 
 class returnService {
 

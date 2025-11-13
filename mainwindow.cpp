@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-MainWindow::MainWindow(Catalogue& c, QWidget *parent)
+#include <QMessageBox>
+MainWindow::MainWindow(Catalogue& c, PatronRepo& pr, QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow)
-    , catalogue (c)
+      ui(new Ui::MainWindow),
+     catalogue (c),
+     currentUser(nullptr),
+     patrons (pr)
 {
     ui->setupUi(this);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::quit);
@@ -24,9 +26,8 @@ void MainWindow::quit(){
 
 void MainWindow::login(){
     l = new loginUI(this);
+    connect(l, &loginUI::loginAttempt, this, &MainWindow::handleLoginAttempt);
     l->show();
-    connect(l, &loginUI::loginSuccess, this, &MainWindow::loginSuccessHandler);
-
 }
 
 void MainWindow::view(){
@@ -38,12 +39,14 @@ void MainWindow::loginSuccessHandler(const QString &username){
     acc = new AccountWindow(this, username);
     ui->actionSign_In->setVisible(false);
     ui->actionView->setVisible(true);
+    l->close();
 }
 
 
 void MainWindow::logout(){
     ui->actionSign_In->setVisible(true);
     ui->actionView->setVisible(false);
+    currentUser = nullptr;
 }
 
 void MainWindow::loadCatalogue(){
@@ -64,6 +67,42 @@ void MainWindow::on_pushButton_clicked()
     Item* currentItem = catalogue.getItemById(ID);
     CatalogueItemUI *CIUI;
     CIUI = new CatalogueItemUI(this,currentItem);
+    connect(CIUI, &CatalogueItemUI::checkoutInitiated, this, &MainWindow::handleCheckout);
     CIUI->show();
 }
+
+void MainWindow::handleLoginAttempt(const QString& username,  const QString& password){
+    Patron* p = patrons.getPatronByUsername(username.toStdString());
+    //Check the patron exists
+    if (!p){
+         QMessageBox::warning(this, "LoginFailed", "That user  does not exist.");
+         return;
+    }
+
+    //Passwordd check
+    if (p->validateLogin(password.toStdString())){
+        currentUser = p;
+        loginSuccessHandler(username);
+    } else {
+        QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
+    }
+}
+
+void MainWindow::handleCheckout(Item* item){
+    checkoutControl c;
+    CheckoutResult result = c.attemptCheckout(item, currentUser);
+    switch (result) {
+    case CheckoutResult::TooManyLoans:
+        QMessageBox::warning(this, "Checkout Error", "You have too many active loans.");
+        break;
+    case CheckoutResult::AlreadyCheckedOut:
+        QMessageBox::warning(this, "Checkout Error", "Item already checked out.");
+        break;
+    default:
+        QMessageBox::information(this, "Success", "Item checked out!");
+        break;
+    }
+}
+
+
 
