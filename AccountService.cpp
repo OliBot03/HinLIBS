@@ -22,3 +22,8 @@ void AccountService::displayActiveLoans(int patronId) {
                   << "\n";
     }
 }
+
+vector<Loan*> AccountService::getActiveLoans(int patronId){
+    vector<Loan*> activeLoans = loans.getLoanByPatron(patronId);
+    return activeLoans;
+}

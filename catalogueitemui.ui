@@ -48,23 +48,10 @@
     <string>MetaData</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="checkin">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>240</y>
-     <width>83</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Check In</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="checkout">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>10</x>
      <y>240</y>
      <width>83</width>
      <height>25</height>
@@ -77,7 +64,7 @@
   <widget class="QPushButton" name="exit">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>110</x>
      <y>240</y>
      <width>83</width>
      <height>25</height>
@@ -90,7 +77,7 @@
   <widget class="QPushButton" name="placeHold">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>210</x>
      <y>240</y>
      <width>83</width>
      <height>25</height>
@@ -98,31 +85,6 @@
    </property>
    <property name="text">
     <string>Place Hold</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="status">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>270</y>
-     <width>62</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <property name="lineWidth">
-    <number>5</number>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
  </widget>

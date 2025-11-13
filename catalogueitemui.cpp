@@ -22,13 +22,6 @@ CatalogueItemUI::~CatalogueItemUI()
     delete ui;
 }
 
-void CatalogueItemUI::on_checkin_clicked()
-{
-    //run check in script
-    // change status label based on success/failure
-}
-
-
 void CatalogueItemUI::on_checkout_clicked()
 {
     emit(checkoutInitiated(item));

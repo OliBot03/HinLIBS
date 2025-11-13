@@ -26,7 +26,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="AccounDetails">
+     <widget class="QLabel" name="AccountDetails">
       <property name="frameShape">
        <enum>QFrame::Box</enum>
       </property>
@@ -43,12 +43,18 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="Loans">
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
+     <widget class="QListWidget" name="listWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="text">
-       <string>[Loans]</string>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -60,12 +66,18 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="Holds">
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
+     <widget class="QListWidget" name="listWidget_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="text">
-       <string>[Holds]</string>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -77,12 +89,18 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="Fines">
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
+     <widget class="QListWidget" name="fineList">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="text">
-       <string>[Fines]</string>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
       </property>
      </widget>
     </item>
