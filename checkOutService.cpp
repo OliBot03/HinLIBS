@@ -1,16 +1,18 @@
-#include "checkOutService.h"
+/*#include "checkOutService.h"
 
-/* For now I changed it to checkoutControl at least that version makes more sense to me -_-
-string checkOutService::checkOutItem(int patronId, int itemId) {
+CheckoutResult checkOutService::checkOutItem(int patronId, int itemId) {
     // check if both patron and item exist
     Patron* p1 = patrons.getPatronById(patronId);
     Item* i1 = catalogue.getItemById(itemId);
-    if (p1 == nullptr) return ("CHECKOUT ERROR: Patron with given ID doesn't exist!");
-    if (i1 == nullptr) return ("CHECKOUT ERROR: Item with given ID doesn't exist!");
+
+    if (p1 == nullptr) return CheckoutResult::PatronDoesNotExist;
+    if (i1 == nullptr) return CheckoutResult::ItemDoesNotExist;
 
     //check if item already checked out
     if (i1->isCheckedOut()) {
         cout << "Item is already checked out! "; 
+        //Temporary:
+        return CheckoutResult::AlreadyCheckedOut;
         //*********TO DO: OFFER PATRON OPTION TO PLACE HOLD IF THEY WANT TO *********
 
         // if patron has hold on item AND is first on hold queue, allow checkout
@@ -19,19 +21,20 @@ string checkOutService::checkOutItem(int patronId, int itemId) {
     }
 
     //check patron active loans < 3
-    if (p1->getActiveLoanCount() >= 3) return ("CHECKOUT ERROR: Patron already has 3 active loans!!");
+    if (p1->getActiveLoanCount() >= 3) return CheckoutResult::TooManyLoans;
 
     // create Loan, set item to checked out, update patron loan count
     Loan& newLoan = loans.addLoan(p1->getPatronId(), i1->getItemId(), 14); // make loan for 14 days
 
     i1->markCheckedOut();
-    p1->addActiveLoan();
+    p1->addActiveLoan(i1->getItemId());
 
 
     const std::time_t due = newLoan.getDueAt();  // needs getter added earlier
-    return std::string("CHECKOUT SUCCESS: ")
-         + i1->getTitle() + " | Due: " + ymd(due)
-         + " | Days remaining: " + std::to_string(days_remaining(due));
+    return CheckoutResult::Success;
+         //***********TO DO: Figure out way to return loan details as well on a success?
+         //+ i1->getTitle() + " | Due: " + ymd(due)
+         //+ " | Days remaining: " + std::to_string(days_remaining(due));
 
 }*/
 

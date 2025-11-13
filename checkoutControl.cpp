@@ -5,7 +5,7 @@ CheckoutResult checkoutControl::attemptCheckout(Item* item, Patron* p){
         return CheckoutResult::AlreadyCheckedOut;
     if (p->getActiveLoanCount() == 3)
         return CheckoutResult::TooManyLoans;
-    p->addActiveLoan(item);
+    p->addActiveLoan(item->getItemId());
     item->markCheckedOut();
     return CheckoutResult::Success;
 }

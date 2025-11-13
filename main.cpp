@@ -7,21 +7,21 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, AccountService&);
+//void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, AccountService&);
 
 int main(int argc, char *argv[])
 {
   PatronRepo p = PatronRepo();
   Catalogue c = Catalogue();
-  LoanRepo loans = LoanRepo();
-  checkOutService checkout(c, p, loans);
-  returnService returns(c, p, loans);
-  AccountService account(p, loans, c); 
+  LoanRepo l = LoanRepo();
+  //checkOutService checkout(c, p, loans);
+  returnService returns(c, p, l);
+  AccountService account(p, l, c);
   //controlLoop(c, p, checkout, returns, account);
 
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w(c, p);
+  MainWindow w(c, p, l);
 
   w.loadCatalogue();
   w.show();

@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-MainWindow::MainWindow(Catalogue& c, PatronRepo& pr, QWidget *parent)
+MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l,QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
      catalogue (c),
      currentUser(nullptr),
-     patrons (pr)
+     patrons (p),
+     loans  (l)
 {
     ui->setupUi(this);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::quit);
@@ -50,11 +51,12 @@ void MainWindow::logout(){
 }
 
 void MainWindow::loadCatalogue(){
-    for (const auto& itemPtr : catalogue.getItems()) {
+    vector<int> itemids = catalogue.getItemIds();
+    for (size_t i = 0;  i < itemids.size(); i++) {
 
-        QString temp = QString::fromStdString(itemPtr->getTitle());
+        QString temp = QString::fromStdString(catalogue.getItemById(itemids[i])->getTitle());
         QListWidgetItem *listItem = new QListWidgetItem(temp);
-        listItem->setData(Qt::UserRole, itemPtr->getItemId());
+        listItem->setData(Qt::UserRole, catalogue.getItemById(itemids[i])->getItemId());
         ui->CatalogueUI->addItem(listItem);
     }
     ui->CatalogueUI->update();
