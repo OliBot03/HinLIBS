@@ -17,7 +17,7 @@ class CatalogueItemUI : public QWidget
     Q_OBJECT
 
 public:
-    explicit CatalogueItemUI(QWidget *parent = nullptr, Item i = Item("",""));
+    explicit CatalogueItemUI(QWidget *parent = nullptr, Item* i = nullptr);
     ~CatalogueItemUI();
 
 private slots:

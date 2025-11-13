@@ -1,16 +1,19 @@
 #include "catalogueitemui.h"
 #include "ui_catalogueitemui.h"
 
-CatalogueItemUI::CatalogueItemUI(QWidget *parent, Item i) :
+CatalogueItemUI::CatalogueItemUI(QWidget *parent, Item* i) :
     QWidget(parent),
     ui(new Ui::CatalogueItemUI)
 {
-    std::ostringstream oss;
-    i.print(oss);
-    QString mData = QString::fromStdString(oss.str());
-
     ui->setupUi(this);
-    ui->metaData->setText(mData);
+    if (i){
+        std::ostringstream oss;
+        i->print(oss);
+        QString mData = QString::fromStdString(oss.str());
+        ui->metaData->setText(mData);
+    } else {
+        ui->metaData->setText("No item data available.");
+    }
 }
 
 CatalogueItemUI::~CatalogueItemUI()

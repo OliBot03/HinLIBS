@@ -16,6 +16,7 @@ class Catalogue {
         Item* getItemById(int id);    
         void printItemById(int id);    
         void printItems();
+
         
 
     private:
