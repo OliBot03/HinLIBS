@@ -1,11 +1,12 @@
 #include "catalogueitemui.h"
 #include "ui_catalogueitemui.h"
 
-CatalogueItemUI::CatalogueItemUI(QWidget *parent, Item* i) :
+CatalogueItemUI::CatalogueItemUI(checkOutService& cs, QWidget *parent, Item* i) :
     QWidget(parent),
-    ui(new Ui::CatalogueItemUI)
+    ui(new Ui::CatalogueItemUI),
+    item(i),
+    cs(cs)
 {
-    item = i;
     ui->setupUi(this);
     if (i){
         std::ostringstream oss;

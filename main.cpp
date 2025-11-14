@@ -11,17 +11,17 @@
 
 int main(int argc, char *argv[])
 {
+  cout<<"Hello world!"<<endl;
   PatronRepo p = PatronRepo();
   Catalogue c = Catalogue();
   LoanRepo l = LoanRepo();
-  //checkOutService checkout(c, p, loans);
+  checkOutService checkout(c, p, l);
   returnService returns(c, p, l);
   AccountService account(p, l, c);
   //controlLoop(c, p, checkout, returns, account);
-
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w(c, p, l);
+  MainWindow w(c, p, l, checkout);
 
   w.loadCatalogue();
   w.show();

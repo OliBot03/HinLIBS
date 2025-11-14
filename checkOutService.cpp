@@ -1,12 +1,14 @@
-/*#include "checkOutService.h"
+#include "checkOutService.h"
 
 CheckoutResult checkOutService::checkOutItem(int patronId, int itemId) {
     // check if both patron and item exist
     Patron* p1 = patrons.getPatronById(patronId);
     Item* i1 = catalogue.getItemById(itemId);
-
+    cout<<"Checkout initiated by PatronID:"<<patronId<<endl;
     if (p1 == nullptr) return CheckoutResult::PatronDoesNotExist;
     if (i1 == nullptr) return CheckoutResult::ItemDoesNotExist;
+
+    cout<<"Attempting to check out: "<<i1->getTitle()<<endl;
 
     //check if item already checked out
     if (i1->isCheckedOut()) {
@@ -36,7 +38,7 @@ CheckoutResult checkOutService::checkOutItem(int patronId, int itemId) {
          //+ i1->getTitle() + " | Due: " + ymd(due)
          //+ " | Days remaining: " + std::to_string(days_remaining(due));
 
-}*/
+}
 
 
 

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "ObjectDefs.h"
-
+#include "checkOutService.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -17,7 +17,7 @@ class CatalogueItemUI : public QWidget
     Q_OBJECT
 
 public:
-    explicit CatalogueItemUI(QWidget *parent = nullptr, Item* i = nullptr);
+    explicit CatalogueItemUI(checkOutService& cs, QWidget *parent = nullptr, Item* i = nullptr);
     ~CatalogueItemUI();
 
 signals:
@@ -35,6 +35,7 @@ private slots:
 private:
     Ui::CatalogueItemUI *ui;
     Item*  item;
+    checkOutService& cs;
 };
 
 #endif // CATALOGUEITEMUI_H

@@ -1,4 +1,4 @@
-#include "checkoutControl.h"
+/*#include "checkoutControl.h"
 
 CheckoutResult checkoutControl::attemptCheckout(Item* item, Patron* p){
     if (item->isCheckedOut())
@@ -8,4 +8,4 @@ CheckoutResult checkoutControl::attemptCheckout(Item* item, Patron* p){
     p->addActiveLoan(item->getItemId());
     item->markCheckedOut();
     return CheckoutResult::Success;
-}
+}*/
