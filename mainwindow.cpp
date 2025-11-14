@@ -98,19 +98,12 @@ void MainWindow::handleLoginAttempt(const QString& username,  const QString& pas
 }
 
 void MainWindow::handleCheckout(Item* item){
-<<<<<<< HEAD
 //Displayes a QMessageBox based on the CheckoutResult returned by the checkOutService
     if (currentUser == nullptr){
         QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
     }else{
         CheckoutResult result = checkoutS.checkOutItem(currentUser->getPatronId(), item->getItemId());
-=======
-    checkoutControl c;
-    if (currentUser == nullptr){
-        QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
-    }else{
-        CheckoutResult result = c.attemptCheckout(item, currentUser);
->>>>>>> b901d99c794438bfb1c548af85a63d7bcf3ee3a7
+
         switch (result) {
         case CheckoutResult::TooManyLoans:
             QMessageBox::warning(this, "Checkout Error", "You have too many active loans.");
@@ -118,13 +111,12 @@ void MainWindow::handleCheckout(Item* item){
         case CheckoutResult::AlreadyCheckedOut:
             QMessageBox::warning(this, "Checkout Error", "Item already checked out.");
             break;
-<<<<<<< HEAD
         case CheckoutResult::ItemDoesNotExist:
             QMessageBox::warning(this, "Checkout Error", "You have somehow attempted to check out an item that doen't exist!");
+            break;
         case CheckoutResult::PatronDoesNotExist:
             QMessageBox::warning(this, "Checkout Error", "You have somehow logged in to a patron that does not exist.");
-=======
->>>>>>> b901d99c794438bfb1c548af85a63d7bcf3ee3a7
+            break;
         default:
             QMessageBox::information(this, "Success", "Item checked out!");
             break;
