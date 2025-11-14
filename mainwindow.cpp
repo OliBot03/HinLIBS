@@ -123,7 +123,7 @@ void MainWindow::handlePlaceHold(Item* item)
         QMessageBox::warning(this, "Hold Error", "No item selected.");
         return;
     }
-
+ //   const bool atLoanLimit = (currentUser->getActiveLoanCount() >= 3);
     // Holds only allowed if item is currently checked out
     if (!item->isCheckedOut()) {
         QMessageBox::warning(
@@ -138,7 +138,7 @@ void MainWindow::handlePlaceHold(Item* item)
     // Prevents a place a hold on an item that patrons haev already checked out
     for (Loan* loan : currentUser->getLoans()) {
         if (loan->getItemId() == item->getItemId() && loan->isActive()) {
-            QMessageBox::information(
+            QMessageBox::warning(
                 this,
                 "Hold",
                 "You already have this item checked out."
@@ -151,7 +151,7 @@ void MainWindow::handlePlaceHold(Item* item)
     auto itemHolds = holds.getHoldsByItem(item->getItemId());
     for (Hold* h : itemHolds) {
         if (h->getPatronId() == currentUser->getPatronId()) {
-            QMessageBox::information(
+            QMessageBox::warning(
                 this,
                 "Hold",
                 "You already have a hold on this item."
