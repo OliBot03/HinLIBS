@@ -20,7 +20,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     ReturnService.cpp \
-    UserRepo.cpp
+    UserRepo.cpp \
+    HoldRepo.cpp 
 
 HEADERS += \
     AccountService.h \
@@ -37,7 +38,9 @@ HEADERS += \
     ReturnService.h \
     timeUtils.h \
     UserDefs.h \
-    UserRepo.h
+    UserRepo.h \
+    Hold.h \
+    HoldRepo.h 
 
 FORMS += \
     accountwindow.ui \
