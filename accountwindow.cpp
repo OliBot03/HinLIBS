@@ -115,3 +115,27 @@ void AccountWindow::on_pushButton_clicked()
 void AccountWindow::setUsername(const QString &u){
     username = u;
 }
+
+void AccountWindow::on_openLoan_clicked()
+{
+    if (ui->listWidget->currentItem() != nullptr){
+        int ID = ui->listWidget->currentItem()->data(Qt::UserRole).toInt();
+        Item* currentItem = catalogue->getItemById(ID);
+
+        accountitemui* AIUI = new accountitemui(this, currentItem);
+        AIUI->show();
+    }
+}
+
+
+void AccountWindow::on_openHold_clicked()
+{
+    if (ui->listWidget_2->currentItem() != nullptr){
+        int ID = ui->listWidget_2->currentItem()->data(Qt::UserRole).toInt();
+        Item* currentItem = catalogue->getItemById(ID);
+
+        holditemui* HIUI = new holditemui(this, currentItem);
+        HIUI->show();
+    }
+}
+

@@ -59,6 +59,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="openLoan">
+      <property name="text">
+       <string>Open</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>Holds</string>
@@ -78,6 +85,13 @@
         <width>16777215</width>
         <height>100</height>
        </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="openHold">
+      <property name="text">
+       <string>Open</string>
       </property>
      </widget>
     </item>
