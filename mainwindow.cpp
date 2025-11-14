@@ -85,7 +85,6 @@ void MainWindow::handleLoginAttempt(const QString& username,  const QString& pas
 
     //Passwordd check
     if (p->validateLogin(password.toStdString())){
-        p->printPatron();
         currentUser = p;
         loginSuccessHandler(username);
     } else {
@@ -98,7 +97,6 @@ void MainWindow::handleCheckout(Item* item){
     if (currentUser == nullptr){
         QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
     }else{
-        currentUser->printPatron();
         CheckoutResult result = checkoutS.checkOutItem(currentUser->getPatronId(), item->getItemId());
         switch (result) {
         case CheckoutResult::TooManyLoans:
