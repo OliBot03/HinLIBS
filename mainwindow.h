@@ -23,8 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    // Added HoldRepo
-    MainWindow(Catalogue& c, PatronRepo& pr, LoanRepo& l, HoldRepo& h, QWidget *parent = nullptr);
+    MainWindow(Catalogue& c, PatronRepo& pr, LoanRepo&, HoldRepo& h, checkOutService& cs, QWidget *parent = nullptr);
     ~MainWindow();
     void loadCatalogue();
     Patron* getUser(){return currentUser;}
@@ -42,6 +41,7 @@ private:
     LoanRepo& loans;
     HoldRepo& holds;
     Patron* currentUser;
+    checkOutService& checkoutS;
 
     void quit();
     void login();

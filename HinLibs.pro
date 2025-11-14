@@ -15,7 +15,6 @@ SOURCES += \
     catalogueitemui.cpp \
     checkOutService.cpp \
     LoanRepo.cpp \
-    checkoutControl.cpp \
     loginui.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -31,7 +30,6 @@ HEADERS += \
     checkOutService.h \
     Loan.h \
     LoanRepo.h \
-    checkoutControl.h \
     loginui.h \
     mainwindow.h \
     ObjectDefs.h \

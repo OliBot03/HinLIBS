@@ -1,14 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l, HoldRepo& h, QWidget *parent)
+
+MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l, HoldRepo& h, checkOutService& cs, QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
-      catalogue(c),
-      patrons(p),
-      loans(l),
-      holds(h),
-      currentUser(nullptr)
+     catalogue (c),
+     currentUser(nullptr),
+     patrons (p),
+     loans  (l),
+     holds(h),
+     checkoutS(cs)
 {
     ui->setupUi(this);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::quit);
@@ -38,7 +40,10 @@ void MainWindow::view(){
 }
 
 
+
 void MainWindow::loginSuccessHandler(Patron* patron){
+    QMessageBox::information(this, "Login Success", "You have successfully logged in!");
+    acc = new AccountWindow(this, patron);
     ui->actionSign_In->setVisible(false);
     ui->actionView->setVisible(true);
     l->close();
@@ -69,7 +74,7 @@ void MainWindow::on_pushButton_clicked()
     int ID = ui->CatalogueUI->currentItem()->data(Qt::UserRole).toInt();
     Item* currentItem = catalogue.getItemById(ID);
     CatalogueItemUI *CIUI;
-    CIUI = new CatalogueItemUI(this,currentItem);
+    CIUI = new CatalogueItemUI(checkoutS, this, currentItem);
     connect(CIUI, &CatalogueItemUI::checkoutInitiated, this, &MainWindow::handleCheckout);
     connect(CIUI, &CatalogueItemUI::holdInitiated, this, &MainWindow::handlePlaceHold);
     CIUI->show();
@@ -93,17 +98,24 @@ void MainWindow::handleLoginAttempt(const QString& username,  const QString& pas
 }
 
 void MainWindow::handleCheckout(Item* item){
-    checkoutControl c;
+//Displayes a QMessageBox based on the CheckoutResult returned by the checkOutService
     if (currentUser == nullptr){
         QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
     }else{
-        CheckoutResult result = c.attemptCheckout(item, currentUser);
+        CheckoutResult result = checkoutS.checkOutItem(currentUser->getPatronId(), item->getItemId());
+
         switch (result) {
         case CheckoutResult::TooManyLoans:
             QMessageBox::warning(this, "Checkout Error", "You have too many active loans.");
             break;
         case CheckoutResult::AlreadyCheckedOut:
             QMessageBox::warning(this, "Checkout Error", "Item already checked out.");
+            break;
+        case CheckoutResult::ItemDoesNotExist:
+            QMessageBox::warning(this, "Checkout Error", "You have somehow attempted to check out an item that doen't exist!");
+            break;
+        case CheckoutResult::PatronDoesNotExist:
+            QMessageBox::warning(this, "Checkout Error", "You have somehow logged in to a patron that does not exist.");
             break;
         default:
             QMessageBox::information(this, "Success", "Item checked out!");

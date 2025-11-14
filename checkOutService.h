@@ -1,4 +1,4 @@
-/*#ifndef CHECKOUTSERVICE_H
+#ifndef CHECKOUTSERVICE_H
 #define CHECKOUTSERVICE_H
 
 #include "LoanRepo.h"
@@ -14,9 +14,9 @@ enum class CheckoutResult {
 };
 
 class checkOutService {
-    
+
     public:
-        checkOutService(Catalogue& cat, PatronRepo& user, LoanRepo& loan) : catalogue(cat), patrons(user), loans(loan) {} 
+        checkOutService(Catalogue& cat, PatronRepo& user, LoanRepo& loan) : catalogue(cat), patrons(user), loans(loan) {}
 
         // TO-DO: format the return of this better?
         CheckoutResult checkOutItem(int, int); //should return either loan details (due date yyyy-mm-dd) or reason for failiure
@@ -28,4 +28,4 @@ class checkOutService {
         PatronRepo& patrons;
         LoanRepo& loans;
 };
-#endif*/
+#endif

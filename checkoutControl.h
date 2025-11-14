@@ -1,4 +1,4 @@
-#ifndef CHECKOUTCONTROL_H
+/*#ifndef CHECKOUTCONTROL_H
 #define CHECKOUTCONTROL_H
 #include "UserDefs.h"
 #include "ObjectDefs.h"
@@ -16,4 +16,4 @@ class checkoutControl {
         CheckoutResult attemptCheckout(Item* item, Patron* patron);
 };
 
-#endif // CHECKOUTCONTROL_H
+#endif // CHECKOUTCONTROL_H*/
