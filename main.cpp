@@ -5,6 +5,7 @@
 #include "AccountService.h"
 #include "LoanRepo.h"
 #include "mainwindow.h"
+#include "HoldRepo.h"
 #include <QApplication>
 
 //void controlLoop(Catalogue&, PatronRepo&, checkOutService&, returnService&, AccountService&);
@@ -16,12 +17,14 @@ int main(int argc, char *argv[])
   Catalogue c = Catalogue();
   LoanRepo l = LoanRepo();
   checkOutService checkout(c, p, l);
+  HoldRepo h = HoldRepo();
   returnService returns(c, p, l);
   AccountService account(p, l, c);
   //controlLoop(c, p, checkout, returns, account);
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w(c, p, l, checkout);
+  MainWindow w(c, p, l, h,  checkout);
+
 
   w.loadCatalogue();
   w.show();

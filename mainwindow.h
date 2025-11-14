@@ -12,6 +12,7 @@
 #include "UserRepo.h"
 #include "LoanRepo.h"
 #include "checkoutControl.h"
+#include "HoldRepo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,9 +23,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(Catalogue& c, PatronRepo& pr, LoanRepo&, checkOutService& cs, QWidget *parent = nullptr);
+    MainWindow(Catalogue& c, PatronRepo& pr, LoanRepo&, HoldRepo& h, checkOutService& cs, QWidget *parent = nullptr);
     ~MainWindow();
     void loadCatalogue();
+    Patron* getUser(){return currentUser;}
 
 private slots:
     void on_pushButton_clicked();
@@ -36,15 +38,17 @@ private:
     AccountWindow *acc;
     Catalogue& catalogue;
     PatronRepo& patrons;
-    LoanRepo& loans;;
+    LoanRepo& loans;
+    HoldRepo& holds;
     Patron* currentUser;
     checkOutService& checkoutS;
 
     void quit();
     void login();
     void view();
-    void loginSuccessHandler(const QString &username);
+    void loginSuccessHandler(Patron* patron);
     void handleCheckout(Item* item);
+    void handlePlaceHold(Item* item);
     void logout();
 };
 #endif // MAINWINDOW_H

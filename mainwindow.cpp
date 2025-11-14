@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l, checkOutService& cs, QWidget *parent)
+
+MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l, HoldRepo& h, checkOutService& cs, QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
      catalogue (c),
      currentUser(nullptr),
      patrons (p),
      loans  (l),
+     holds(h),
      checkoutS(cs)
 {
     ui->setupUi(this);
@@ -33,13 +35,15 @@ void MainWindow::login(){
 }
 
 void MainWindow::view(){
+    acc = new AccountWindow(this, currentUser, &holds, &catalogue);
     acc->show();
 }
 
 
-void MainWindow::loginSuccessHandler(const QString &username){
+
+void MainWindow::loginSuccessHandler(Patron* patron){
     QMessageBox::information(this, "Login Success", "You have successfully logged in!");
-    acc = new AccountWindow(this, username);
+    acc = new AccountWindow(this, patron);
     ui->actionSign_In->setVisible(false);
     ui->actionView->setVisible(true);
     l->close();
@@ -72,6 +76,7 @@ void MainWindow::on_pushButton_clicked()
     CatalogueItemUI *CIUI;
     CIUI = new CatalogueItemUI(checkoutS, this, currentItem);
     connect(CIUI, &CatalogueItemUI::checkoutInitiated, this, &MainWindow::handleCheckout);
+    connect(CIUI, &CatalogueItemUI::holdInitiated, this, &MainWindow::handlePlaceHold);
     CIUI->show();
 }
 
@@ -86,18 +91,26 @@ void MainWindow::handleLoginAttempt(const QString& username,  const QString& pas
     //Passwordd check
     if (p->validateLogin(password.toStdString())){
         currentUser = p;
-        loginSuccessHandler(username);
+        loginSuccessHandler(p);
     } else {
         QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
     }
 }
 
 void MainWindow::handleCheckout(Item* item){
+<<<<<<< HEAD
 //Displayes a QMessageBox based on the CheckoutResult returned by the checkOutService
     if (currentUser == nullptr){
         QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
     }else{
         CheckoutResult result = checkoutS.checkOutItem(currentUser->getPatronId(), item->getItemId());
+=======
+    checkoutControl c;
+    if (currentUser == nullptr){
+        QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
+    }else{
+        CheckoutResult result = c.attemptCheckout(item, currentUser);
+>>>>>>> b901d99c794438bfb1c548af85a63d7bcf3ee3a7
         switch (result) {
         case CheckoutResult::TooManyLoans:
             QMessageBox::warning(this, "Checkout Error", "You have too many active loans.");
@@ -105,10 +118,13 @@ void MainWindow::handleCheckout(Item* item){
         case CheckoutResult::AlreadyCheckedOut:
             QMessageBox::warning(this, "Checkout Error", "Item already checked out.");
             break;
+<<<<<<< HEAD
         case CheckoutResult::ItemDoesNotExist:
             QMessageBox::warning(this, "Checkout Error", "You have somehow attempted to check out an item that doen't exist!");
         case CheckoutResult::PatronDoesNotExist:
             QMessageBox::warning(this, "Checkout Error", "You have somehow logged in to a patron that does not exist.");
+=======
+>>>>>>> b901d99c794438bfb1c548af85a63d7bcf3ee3a7
         default:
             QMessageBox::information(this, "Success", "Item checked out!");
             break;
@@ -116,5 +132,76 @@ void MainWindow::handleCheckout(Item* item){
     }
 }
 
+void MainWindow::handlePlaceHold(Item* item)
+{
+    if (!currentUser) {
+        QMessageBox::warning(this, "Hold Error", "You must be signed in to place a hold.");
+        return;
+    }
 
+    if (!item) {
+        QMessageBox::warning(this, "Hold Error", "No item selected.");
+        return;
+    }
+ //   const bool atLoanLimit = (currentUser->getActiveLoanCount() >= 3);
+    // Holds only allowed if item is currently checked out
+    if (!item->isCheckedOut()) {
+        QMessageBox::warning(
+            this,
+            "Hold Error",
+            "This item is currently available.\n"
+            "Holds can only be placed on items that are checked out."
+        );
+        return;
+    }
 
+    // Prevents a place a hold on an item that patrons haev already checked out
+    for (Loan* loan : currentUser->getLoans()) {
+        if (loan->getItemId() == item->getItemId() && loan->isActive()) {
+            QMessageBox::warning(
+                this,
+                "Hold",
+                "You already have this item checked out."
+            );
+            return;
+        }
+    }
+
+    // Prevent duplicate holds by the same patron on the same item
+    auto itemHolds = holds.getHoldsByItem(item->getItemId());
+    for (Hold* h : itemHolds) {
+        if (h->getPatronId() == currentUser->getPatronId()) {
+            QMessageBox::warning(
+                this,
+                "Hold",
+                "You already have a hold on this item."
+            );
+            return;
+        }
+    }
+
+    // Creates hold
+    Hold& h = holds.addHold(currentUser->getPatronId(), item->getItemId());
+
+    // Compute Patron User's position in the queue for this item
+    auto queue = holds.getHoldsByItem(item->getItemId());
+    int position = 1;
+    for (size_t i = 0; i < queue.size(); ++i) {
+        if (queue[i]->getHoldId() == h.getHoldId()) {
+            position = static_cast<int>(i) + 1;  // increment
+            break;
+        }
+    }
+
+    QString msg = QString("Hold placed.\n\n"
+                          "Hold ID: %1\n"
+                          "Item: %2\n"
+                          "Placed: %3\n"
+                          "Position in hold queue: %4")
+                      .arg(h.getHoldId())
+                      .arg(QString::fromStdString(item->getTitle()))
+                      .arg(QString::fromStdString(ymd(h.getPlacedAt())))
+                      .arg(position);
+
+    QMessageBox::information(this, "Hold Placed", msg);
+}
