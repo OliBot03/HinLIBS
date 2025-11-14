@@ -22,6 +22,7 @@ public:
 
 signals:
     void checkoutInitiated(Item* item);
+    void holdInitiated(Item* item);
 
 private slots:
 

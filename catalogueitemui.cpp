@@ -38,5 +38,7 @@ void CatalogueItemUI::on_placeHold_clicked()
 {
     //run place hold script
     // change status label based on success/failure
+
+    emit holdInitiated(item);
 }
 
