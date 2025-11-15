@@ -2,17 +2,20 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 
-MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LoanRepo& l, HoldRepo& h, checkOutService& cs, QWidget *parent)
+MainWindow::MainWindow(Catalogue& c, PatronRepo& p, LibrarianRepo& lr, SysAdmRepo& sar, LoanRepo& l, HoldRepo& h, checkOutService& cs, QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
      catalogue (c),
      currentUser(nullptr),
      patrons (p),
+     librarians (lr),
+     sysadms (sar),
      loans  (l),
      holds(h),
      checkoutS(cs)
 {
     ui->setupUi(this);
+    ui->ComingSoon  ->setVisible(false);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::quit);
     connect(ui->actionSign_In, &QAction::triggered, this, &MainWindow::login);
     connect(ui->actionSign_Out, &QAction::triggered, this, &MainWindow::logout);
@@ -41,13 +44,35 @@ void MainWindow::view(){
 
 
 
-void MainWindow::loginSuccessHandler(Patron* patron){
+void MainWindow::loginSuccessHandlerPatron(Patron* patron){
     QMessageBox::information(this, "Login Success", "You have successfully logged in!");
     acc = new AccountWindow(this, patron);
     ui->actionSign_In->setVisible(false);
     ui->actionView->setVisible(true);
     l->close();
 }
+
+void MainWindow::loginSuccessHandlerLibrarian(Librarian* librarian){
+    QMessageBox::information(this, "Login Success", "You have successfully logged in!");
+    ui->actionSign_In->setVisible(false);
+    //more functionality in D2
+    ui->CatalogueUI->setVisible(false);
+    ui->label->setVisible(false);
+    ui->pushButton->setVisible(false);
+        ui->ComingSoon  ->setVisible(true);
+    l->close();
+}
+void MainWindow::loginSuccessHandlerSysAdm(SysAdm *SysAdm){
+    QMessageBox::information(this, "Login Success", "You have successfully logged in!");
+    ui->actionSign_In->setVisible(false);
+    //more functionality in D2
+    ui->CatalogueUI->setVisible(false);
+    ui->label->setVisible(false);
+    ui->pushButton->setVisible(false);
+            ui->ComingSoon  ->setVisible(true);
+    l->close();
+}
+
 
 
 void MainWindow::logout(){
@@ -82,18 +107,45 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::handleLoginAttempt(const QString& username,  const QString& password){
     Patron* p = patrons.getPatronByUsername(username.toStdString());
+    Librarian* lu = librarians.getLibrarianByUsername(username.toStdString());
+    SysAdm* su = sysadms.getSysAdmByUsername(username.toStdString());
     //Check the patron exists
+    int type = 1;
     if (!p){
-         QMessageBox::warning(this, "LoginFailed", "That user  does not exist.");
-         return;
+        type = 2;
+        if (!lu){
+            type = 3;
+            if (!su){
+                QMessageBox::warning(this, "LoginFailed", "That user  does not exist.");
+                return;
+            }
+        }
     }
 
     //Passwordd check
-    if (p->validateLogin(password.toStdString())){
-        currentUser = p;
-        loginSuccessHandler(p);
-    } else {
-        QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
+    switch (type) {
+    case 2:
+        if (lu->validateLogin(password.toStdString())){
+            loginSuccessHandlerLibrarian(lu);
+        } else {
+            QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
+        }
+        break;
+    case 3:
+        if (su->validateLogin(password.toStdString())){
+            loginSuccessHandlerSysAdm(su);
+        } else {
+            QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
+        }
+        break;
+    default:
+        if (p->validateLogin(password.toStdString())){
+            currentUser = p;
+            loginSuccessHandlerPatron(p);
+        } else {
+            QMessageBox::warning(this, "LoginFailed", "Incorrect password.");
+        }
+        break;
     }
 }
 
@@ -102,7 +154,7 @@ void MainWindow::handleCheckout(Item* item){
     if (currentUser == nullptr){
         QMessageBox::warning(this, "Checkout Error", "You are not logged in.");
     }else{
-        CheckoutResult result = checkoutS.checkOutItem(currentUser->getPatronId(), item->getItemId());
+        CheckoutResult result = checkoutS.checkOutItem(currentUser->getPatronId(), item->getItemId(), holds);
 
         switch (result) {
         case CheckoutResult::TooManyLoans:
@@ -116,6 +168,9 @@ void MainWindow::handleCheckout(Item* item){
             break;
         case CheckoutResult::PatronDoesNotExist:
             QMessageBox::warning(this, "Checkout Error", "You have somehow logged in to a patron that does not exist.");
+            break;
+        case CheckoutResult::ItemOnHold:
+            QMessageBox::warning(this, "Checkout Error", "This Item is On-Hold, please join tthe queue");
             break;
         default:
             QMessageBox::information(this, "Success", "Item checked out!");

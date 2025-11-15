@@ -18,7 +18,7 @@ class AccountWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit AccountWindow(QWidget *parent = nullptr, Patron *p = nullptr, 
+    explicit AccountWindow(QWidget *parent = nullptr, Patron *p = nullptr,
                             HoldRepo *h = nullptr, Catalogue *cat = nullptr);
     ~AccountWindow();
     void setUsername(const QString &username);

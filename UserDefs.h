@@ -51,12 +51,41 @@ class Patron {
 
 
 //For the future:
-/*class Librarian {
+class Librarian {
+private:
+  inline static int nextLibId = 9001;
+  int LibId; //make this more meaningful (tie it to the fake "authentication" for the session maybe)
 
+  string username;
+  string password;
+
+
+  //Holds
+
+
+
+public:
+  Librarian(const string& username, const string& password) : LibId(nextLibId++), username(username), password(password){}
+      bool validateLogin(string p){ return p==password;}
+      string getUsername() const {return username;}
 };
 
-class SystemAdmin {
+class SysAdm {
+private:
+  inline static int nextSysId = 8001;
+  int SysAdmId; //make this more meaningful (tie it to the fake "authentication" for the session maybe)
 
-};*/
+  string username;
+  string password;
+
+
+
+
+public:
+
+  SysAdm(const string& username, const string& password) : SysAdmId(nextSysId++), username(username), password(password){}
+    bool validateLogin(string p){ return p==password;}
+    string getUsername() const {return username;}
+};
 
 #endif

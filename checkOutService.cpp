@@ -1,6 +1,6 @@
 #include "checkOutService.h"
 
-CheckoutResult checkOutService::checkOutItem(int patronId, int itemId) {
+CheckoutResult checkOutService::checkOutItem(int patronId, int itemId, HoldRepo& h) {
     // check if both patron and item exist
     Patron* p1 = patrons.getPatronById(patronId);
     Item* i1 = catalogue.getItemById(itemId);
@@ -26,14 +26,35 @@ CheckoutResult checkOutService::checkOutItem(int patronId, int itemId) {
     if (p1->getActiveLoanCount() >= 3) return CheckoutResult::TooManyLoans;
 
     // create Loan, set item to checked out, update patron loan count
-    Loan& newLoan = loans.addLoan(p1->getPatronId(), i1->getItemId(), 14); // make loan for 14 days
 
-    i1->markCheckedOut();
-    p1->addActiveLoan(i1->getItemId());
+    if (i1->isCheckedOut() == false){
+        if (holds.getHoldsByItem(i1->getItemId()).empty()){
+            Loan& newLoan = loans.addLoan(p1->getPatronId(), i1->getItemId(), 14); // make loan for 14 days
+
+            i1->markCheckedOut();
+            p1->addActiveLoan(i1->getItemId());
 
 
-    const std::time_t due = newLoan.getDueAt();  // needs getter added earlier
-    return CheckoutResult::Success;
+            const std::time_t due = newLoan.getDueAt();  // needs getter added earlier
+            return CheckoutResult::Success;
+        }else{
+           Hold* nextHold = holds.getHoldsByItem(i1->getItemId())[0];
+           if (nextHold->getPatronId() == p1->getPatronId()){
+               Loan& newLoan = loans.addLoan(p1->getPatronId(), i1->getItemId(), 14); // make loan for 14 days
+
+               i1->markCheckedOut();
+               p1->addActiveLoan(i1->getItemId());
+               p1->removeActiveLoan(i1->getItemId());
+
+
+               const std::time_t due = newLoan.getDueAt();  // needs getter added earlier
+               return CheckoutResult::Success;
+           }else{
+               return CheckoutResult::ItemOnHold;
+           }
+        }
+    }
+
          //***********TO DO: Figure out way to return loan details as well on a success?
          //+ i1->getTitle() + " | Due: " + ymd(due)
          //+ " | Days remaining: " + std::to_string(days_remaining(due));

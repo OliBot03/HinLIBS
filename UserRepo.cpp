@@ -49,5 +49,36 @@ void PatronRepo::printAllPatrons() const {
     }
 }
 
+LibrarianRepo::LibrarianRepo(){
+    addLibrarian(std::make_unique<Librarian>("Librarian1", "Pass1"));
+}
+SysAdmRepo::SysAdmRepo(){
+    addSysAdm(std::make_unique<SysAdm>("SysAdm1", "Pass1"));
+}
 
+Librarian* LibrarianRepo::getLibrarianByUsername(string username) const {
+    for(size_t i=0; i < librarians.size(); i++) {
+        if (librarians.at(i)->getUsername() == username)
+            return librarians.at(i).get();
+    }
+    //TO DO: If we reach here patron not found, send error message
+    return nullptr;
+}
+
+void LibrarianRepo::addLibrarian(unique_ptr<Librarian> librarian) {
+    librarians.push_back(std::move(librarian));
+}
+
+SysAdm* SysAdmRepo::getSysAdmByUsername(string username) const {
+    for(size_t i=0; i < sysAdms.size(); i++) {
+        if (sysAdms.at(i)->getUsername() == username)
+            return sysAdms.at(i).get();
+    }
+    //TO DO: If we reach here patron not found, send error message
+    return nullptr;
+}
+
+void SysAdmRepo::addSysAdm(unique_ptr<SysAdm> sysAdm) {
+    sysAdms.push_back(std::move(sysAdm));
+}
 

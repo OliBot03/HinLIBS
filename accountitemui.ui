@@ -32,7 +32,7 @@
       <item row="3" column="3">
        <widget class="QPushButton" name="exit">
         <property name="text">
-         <string>Return</string>
+         <string>Exit</string>
         </property>
        </widget>
       </item>

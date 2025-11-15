@@ -23,7 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(Catalogue& c, PatronRepo& pr, LoanRepo&, HoldRepo& h, checkOutService& cs, QWidget *parent = nullptr);
+    MainWindow(Catalogue& c, PatronRepo& pr, LibrarianRepo& lr, SysAdmRepo& sar, LoanRepo&, HoldRepo& h, checkOutService& cs, QWidget *parent = nullptr);
     ~MainWindow();
     void loadCatalogue();
     Patron* getUser(){return currentUser;}
@@ -38,6 +38,8 @@ private:
     AccountWindow *acc;
     Catalogue& catalogue;
     PatronRepo& patrons;
+    LibrarianRepo& librarians;
+    SysAdmRepo& sysadms;
     LoanRepo& loans;
     HoldRepo& holds;
     Patron* currentUser;
@@ -46,7 +48,9 @@ private:
     void quit();
     void login();
     void view();
-    void loginSuccessHandler(Patron* patron);
+    void loginSuccessHandlerPatron(Patron* patron);
+    void loginSuccessHandlerLibrarian(Librarian* librarian);
+    void loginSuccessHandlerSysAdm(SysAdm* SysAdm);
     void handleCheckout(Item* item);
     void handlePlaceHold(Item* item);
     void logout();

@@ -14,6 +14,7 @@ class Item {
     string author;
     int itemId;
     bool checkedOut;
+    bool onHold;
 
     Item(std::string t, std::string c) : title(std::move(t)), author(std::move(c)), itemId(nextItemId++) {}
   
@@ -25,6 +26,7 @@ class Item {
     int getItemId() const { return itemId; }
     const std::string& getTitle() const { return title; }
     bool isCheckedOut() const { return checkedOut; }
+    bool isOnHold() const {return onHold;}
     void markCheckedOut() { checkedOut = true; }
     void markAvailable() { checkedOut = false; }
 };
@@ -34,7 +36,7 @@ class FictionBook: public Item {
     string isbn;
 
   public:
-    FictionBook(const string& title, const string& author, const string& isbn) : Item(title, author), isbn(isbn) {checkedOut = false;}
+    FictionBook(const string& title, const string& author, const string& isbn) : Item(title, author), isbn(isbn) {checkedOut = false, onHold = false;}
     void getType() const override {cout<<"FictionBook"<<endl;}
     void print(ostream& os) const override {
       os << " ID: " << getItemId() << "\n Title: " << title << "\n Author: " << author << "\n ISBN: "
@@ -49,7 +51,7 @@ class NonFictionBook: public Item {
 
   public:
     NonFictionBook(const string& title, const string& author, const string& isbn, const string& DeweyDecimal) 
-      : Item(title, author), isbn(isbn), DeweyDecimal(DeweyDecimal) { checkedOut = false;}
+      : Item(title, author), isbn(isbn), DeweyDecimal(DeweyDecimal) { checkedOut = false, onHold = false;}
     void getType() const override {cout<<"NonFictionBook"<<endl;}
     void print(ostream& os) const override {
       os << " ID: " << getItemId() << "\n Title: " << title << "\n Author: " << author << "\n ISBN: "
@@ -64,7 +66,7 @@ class Magazine: public Item {
 
   public:  
     Magazine(const string& title, const string& author, const string& issueNumber, const string& publicationDate) 
-      : Item(title, author), issueNumber(issueNumber), publicationDate(publicationDate) { checkedOut = false; }
+      : Item(title, author), issueNumber(issueNumber), publicationDate(publicationDate) { checkedOut = false, onHold = false; }
     void getType() const override {cout<<"Magazine"<<endl;}
     void print(ostream& os) const override{
       os << " ID: " << getItemId() << "\n Title: " << title << "\n Author: " << author << "\n Issue Number: "
@@ -79,7 +81,7 @@ class Movie: public Item {
 
   public:
     Movie(const string& title, const string& author, const string& genre, const string& rating) 
-      : Item(title, author), genre(genre), rating(rating) { checkedOut = false; }
+      : Item(title, author), genre(genre), rating(rating) { checkedOut = false, onHold = false; }
     void getType() const override {cout<<"Movie"<<endl;}
     void print(ostream& os) const override {
       os << " ID: " << getItemId() << "\n Title: " << title << "\n Author: " << author << "\n Genre: "
@@ -94,7 +96,7 @@ class VideoGame: public Item {
 
   public:
     VideoGame(const string& title, const string& author, const string& genre, const string& rating) 
-      : Item(title, author), genre(genre), rating(rating) { checkedOut = false; }
+      : Item(title, author), genre(genre), rating(rating) { checkedOut = false, onHold = false; }
     void getType() const override {cout<<"VideoGame"<<endl;}
     void print(ostream& os) const override {
       os << " ID: " << getItemId() << "\n Title: " << title << "\n Author: " << author << "\n Genre: " << genre

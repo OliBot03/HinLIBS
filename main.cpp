@@ -14,16 +14,18 @@ int main(int argc, char *argv[])
 {
   cout<<"Hello world!"<<endl;
   PatronRepo p = PatronRepo();
+  LibrarianRepo lr = LibrarianRepo();
+  SysAdmRepo sar = SysAdmRepo();
   Catalogue c = Catalogue();
   LoanRepo l = LoanRepo();
-  checkOutService checkout(c, p, l);
   HoldRepo h = HoldRepo();
+  checkOutService checkout(c, p, l, h);
   returnService returns(c, p, l);
   AccountService account(p, l, c);
   //controlLoop(c, p, checkout, returns, account);
   //QT Window launch
   QApplication a(argc, argv);
-  MainWindow w(c, p, l, h,  checkout);
+  MainWindow w(c, p, lr, sar, l, h,  checkout);
 
 
   w.loadCatalogue();
