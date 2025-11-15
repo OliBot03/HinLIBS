@@ -10,11 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     AccountService.cpp \
+    accountitemui.cpp \
     accountwindow.cpp \
     Catalogue.cpp \
     catalogueitemui.cpp \
     checkOutService.cpp \
     LoanRepo.cpp \
+    holditemui.cpp \
     loginui.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,12 +26,14 @@ SOURCES += \
 
 HEADERS += \
     AccountService.h \
+    accountitemui.h \
     accountwindow.h \
     Catalogue.h \
     catalogueitemui.h \
     checkOutService.h \
     Loan.h \
     LoanRepo.h \
+    holditemui.h \
     loginui.h \
     mainwindow.h \
     ObjectDefs.h \
@@ -41,8 +45,10 @@ HEADERS += \
     HoldRepo.h 
 
 FORMS += \
+    accountitemui.ui \
     accountwindow.ui \
     catalogueitemui.ui \
+    holditemui.ui \
     loginui.ui \
     mainwindow.ui
 

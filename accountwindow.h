@@ -6,6 +6,8 @@
 #include "AccountService.h"
 #include "HoldRepo.h"
 #include "Catalogue.h"
+#include "accountitemui.h"
+#include "holditemui.h"
 
 namespace Ui {
 class AccountWindow;
@@ -23,6 +25,10 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_openLoan_clicked();
+
+    void on_openHold_clicked();
 
 private:
     Ui::AccountWindow *ui;
